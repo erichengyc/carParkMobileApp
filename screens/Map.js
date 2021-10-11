@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, ScrollView, Dimensions } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from "react-native";
 import MapView from "react-native-maps";
 
 const { height, width } = Dimensions.get("screen");
@@ -12,6 +19,10 @@ const parkings = [
     rating: 4.2,
     spots: 20,
     free: 10,
+    location: {
+      lat: 37.78845,
+      lng: -122.4344,
+    },
   },
   {
     id: 2,
@@ -20,6 +31,10 @@ const parkings = [
     rating: 3.8,
     spots: 25,
     free: 20,
+    location: {
+      lat: 37.78815,
+      lng: -122.4314,
+    },
   },
   {
     id: 3,
@@ -28,10 +43,18 @@ const parkings = [
     rating: 4.9,
     spots: 50,
     free: 25,
+    location: {
+      lat: 37.78835,
+      lng: -122.4334,
+    },
   },
 ];
 
 export default class Map extends Component {
+  state = {
+    hours: {},
+  };
+
   renderHeader() {
     return (
       <View style={styles.header}>
@@ -41,9 +64,32 @@ export default class Map extends Component {
   }
 
   renderParking(item) {
+    const { hours } = this.state;
+
     return (
       <View key={"parking-${item.id}"} style={styles.parking}>
-        <Text>{item.title}</Text>
+        <View style={{ flex: 1, flexDirection: "column" }}>
+          <Text>
+            x {item.spots} {item.title}
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>${item.price}</Text>
+          <Text>{item.rating}</Text>
+          <TouchableWithoutFeedback style={styles.buy}>
+            <View>
+              <View>
+                <Text>${item.price * 2}</Text>
+                <Text>
+                  ${item.price}x{hours[item.id]} hrs
+                </Text>
+              </View>
+              <View>
+                <Text>&gt;</Text>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     );
   }
@@ -57,7 +103,7 @@ export default class Map extends Component {
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
         snapToAlignment="center"
-        contentInset ={{top:0, left:24, bottom: 0, right: 0}}
+        onScroll={(props) => console.log("onScroll", props)}
         style={styles.parkings}
       >
         {parkings.map((parking) => this.renderParking(parking))}
@@ -102,9 +148,9 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom: 24,
-
   },
   parking: {
+    flexDirection: "row",
     backgroundColor: "white",
     borderRadius: 6,
     padding: 24,
