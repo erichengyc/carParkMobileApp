@@ -5,7 +5,6 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
-  Picker,
   FlatList,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -80,11 +79,11 @@ export default class Map extends Component {
     const { hours } = this.state;
 
     return (
-      <TouchableWithoutFeedback>
-        <View
-          key={"parking-${item.id}"}
-          style={[styles.parking, styles.shadow]}
-        >
+      <TouchableWithoutFeedback
+        key={"parking-${item.id}"}
+        onPress={() => this.setState({ active: item.id })}
+      >
+        <View style={[styles.parking, styles.shadow]}>
           <View style={{ flex: 1, flexDirection: "column" }}>
             <Text style={{ fontSize: 16 }}>
               x {item.spots} {item.title}
@@ -209,7 +208,15 @@ export default class Map extends Component {
         >
           {parkings.map((parking) => (
             <Marker key={"marker-${parking.id"} coordinate={parking.coordinate}>
-              <View style={[styles.marker, styles.shadow]}>
+             <TouchableWithoutFeedback onPress={() => this.setState({ active: parking.id })}>
+
+              <View
+                style={[
+                  styles.marker,
+                  styles.shadow,
+                  this.state.active === parking.id ? styles.active : null,
+                ]}
+              >
                 <Text style={{ color: "#840815", fontWeight: "bold" }}>
                   ${parking.price}{" "}
                 </Text>
@@ -217,6 +224,7 @@ export default class Map extends Component {
                   ({parking.free}/{parking.spots})
                 </Text>
               </View>
+              </TouchableWithoutFeedback>
             </Marker>
           ))}
         </MapView>
@@ -269,6 +277,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingVertical: 12,
     paddingHorizontal: 24,
+    borderWidth: 1,
+    borderColor: 'white',
   },
   shadow: {
     shadowColor: "#000",
@@ -280,4 +290,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 24,
   },
+  active: {
+      borderColor: '#840815',
+  }
 });
