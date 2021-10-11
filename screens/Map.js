@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, ScrollView } from "react-native";
+import { Text, StyleSheet, View, ScrollView, Dimensions } from "react-native";
 import MapView from "react-native-maps";
+
+const { height, width } = Dimensions.get("screen");
 
 const parkings = [
   {
@@ -40,7 +42,7 @@ export default class Map extends Component {
 
   renderParking(item) {
     return (
-      <View key={'parking-${item.id}'} style={styles.parking}>
+      <View key={"parking-${item.id}"} style={styles.parking}>
         <Text>{item.title}</Text>
       </View>
     );
@@ -48,8 +50,13 @@ export default class Map extends Component {
 
   renderParkings() {
     return (
-      <ScrollView horizontal contentContainerStyle={styles.parkings}>
-        {parkings.map(parking => this.renderParking(parking))}
+      <ScrollView
+        horizontal
+        pagingEnabled
+        scrollEnabled
+        style={styles.parkings}
+      >
+        {parkings.map((parking) => this.renderParking(parking))}
       </ScrollView>
     );
   }
@@ -88,14 +95,16 @@ const styles = StyleSheet.create({
   },
   parkings: {
     position: "absolute",
-    right: 0,
-    left: 0,
-    bottom: 0,
+    right: 24,
+    left: 24,
+    bottom: 24,
+
   },
   parking: {
     backgroundColor: "white",
     borderRadius: 6,
     padding: 12,
     marginHorizontal: 24,
+    width: width - 24 * 2,
   },
 });
