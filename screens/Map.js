@@ -73,19 +73,29 @@ export default class Map extends Component {
             x {item.spots} {item.title}
           </Text>
         </View>
-        <View style={{ flex: 1 }}>
-          <Text>${item.price}</Text>
-          <Text>{item.rating}</Text>
-          <TouchableWithoutFeedback style={styles.buy}>
-            <View>
-              <View>
-                <Text>${item.price * 2}</Text>
-                <Text>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Text>${item.price}</Text>
+            <Text>{item.rating}</Text>
+          </View>
+          <TouchableWithoutFeedback>
+            <View style={styles.buy}>
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text style={{ fontSize: 25, color: "white" }}>
+                  ${item.price * 2}
+                </Text>
+                <Text style={{ color: "white" }}>
                   ${item.price}x{hours[item.id]} hrs
                 </Text>
               </View>
-              <View>
-                <Text>&gt;</Text>
+              <View
+                style={{
+                  flex: 0.5,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "white" }}>&gt;</Text>
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -153,8 +163,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     borderRadius: 6,
-    padding: 24,
+    padding: 12,
     marginHorizontal: 24,
     width: width - 24 * 2,
+  },
+  buy: {
+    flex: 1,
+    flexDirection: "row",
+    padding: 12,
+    backgroundColor: "red",
+    borderRadius: 6,
   },
 });
