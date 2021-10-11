@@ -3,9 +3,10 @@ import {
   Text,
   StyleSheet,
   View,
-  ScrollView,
   Dimensions,
   TouchableOpacity,
+  Picker,
+  FlatList,
 } from "react-native";
 import MapView from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
@@ -56,6 +57,15 @@ export default class Map extends Component {
     hours: {},
   };
 
+  componentDidMount() {
+    const hours = {};
+
+    parkings.map((parking) => {
+      hours[parking.id] = 1;
+    });
+    this.setState({ hours })
+  }
+
   renderHeader() {
     return (
       <View style={styles.header}>
@@ -73,6 +83,25 @@ export default class Map extends Component {
           <Text style={{ fontSize: 16 }}>
             x {item.spots} {item.title}
           </Text>
+          {/* <Picker
+            selectedValue={this.state.hours[item.id || 1 ]}
+            style={{ height: 50, width: 100 }}
+            itemStyle={{ color: 'red'}}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({
+                horus: { ...this.state.hours, [item.id]: itemValue },
+              })
+            }
+          >
+            <Picker.Item label="01:00" value={1} />
+            <Picker.Item label="02:00" value={2} />
+            <Picker.Item label="03:00" value={3} />
+            <Picker.Item label="04:00" value={4} />
+            <Picker.Item label="05:00" value={5} />
+            <Picker.Item label="06:00" value={6} />
+            <Picker.Item label="07:00" value={7} />
+          </Picker> */}
+
           <View
             style={{
               width: 100,
@@ -82,16 +111,36 @@ export default class Map extends Component {
               padding: 4,
             }}
           >
-            <Text style={{ fontSize: 16 }}>05:00 hrs</Text>
+            <Text style={{ fontSize: 16 }}>05:00</Text>
           </View>
         </View>
         <View style={{ flex: 1.5, flexDirection: "row" }}>
-          <View style={{ flex: 0.5, justifyContent: "center", marginHorizontal: 12 }}>
-            <View style={{flex:1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+          <View
+            style={{
+              flex: 0.5,
+              justifyContent: "center",
+              marginHorizontal: 12,
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Ionicons name="ios-pricetag" size={16} color="#7D818A" />
               <Text> ${item.price} </Text>
             </View>
-            <View style={{flex:1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Ionicons name="ios-star" size={16} color="#7D818A" />
               <Text> {item.rating} </Text>
             </View>
@@ -122,18 +171,24 @@ export default class Map extends Component {
 
   renderParkings() {
     return (
-      <ScrollView
-        horizontal
-        pagingEnabled
-        scrollEnabled
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
-        snapToAlignment="center"
-        onScroll={(props) => console.log("onScroll", props)}
-        style={styles.parkings}
-      >
-        {parkings.map((parking) => this.renderParking(parking))}
-      </ScrollView>
+        <FlatList
+            horizontal
+            pagingEnabled
+            scrollEnabled
+            showsHorizontalScrollIndicator={false}
+            scrollEventThrottle={16}
+            snapToAlignment="center"
+            onScroll={(props) => console.log("onScroll", props)}
+            style={styles.parkings}
+            data={parkings}
+            keyExtractor={(item, index) => '$(item.id)'}
+            renderItem={({ item }) => this.renderParking(item) }
+        />
+
+
+    //   <ScrollView>
+    //     {parkings.map((parking) => this.renderParking(parking))}
+    //   </ScrollView>
     );
   }
 
