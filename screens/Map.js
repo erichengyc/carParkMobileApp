@@ -54,6 +54,10 @@ export default class Map extends Component {
         horizontal
         pagingEnabled
         scrollEnabled
+        showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={16}
+        snapToAlignment="center"
+        contentInset ={{top:0, left:24, bottom: 0, right: 0}}
         style={styles.parkings}
       >
         {parkings.map((parking) => this.renderParking(parking))}
@@ -95,15 +99,15 @@ const styles = StyleSheet.create({
   },
   parkings: {
     position: "absolute",
-    right: 24,
-    left: 24,
+    right: 0,
+    left: 0,
     bottom: 24,
 
   },
   parking: {
     backgroundColor: "white",
     borderRadius: 6,
-    padding: 12,
+    padding: 24,
     marginHorizontal: 24,
     width: width - 24 * 2,
   },
