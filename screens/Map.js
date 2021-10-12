@@ -53,7 +53,7 @@ const parkings = [
   },
 ];
 
-export default class Map extends Component {
+class Map extends Component {
   state = {
     hours: {},
     active: null,
@@ -84,15 +84,15 @@ export default class Map extends Component {
         onPress={() => this.setState({ active: item.id })}
       >
         <View style={[styles.parking, styles.shadow]}>
-          <View style={{ flex: 1, flexDirection: "column" }}>
-            <Text style={{ fontSize: 16 }}>
+          <View style={styles.hours}>
+            <Text style={styles.hoursTitle}>
               x {item.spots} {item.title}
             </Text>
             <View
               style={{
                 width: 100,
                 borderRadius: 6,
-                borderColor: "grey",
+                borderColor: theme.COLORS.gray,
                 borderWidth: 0.5,
                 padding: 4,
               }}
@@ -100,54 +100,41 @@ export default class Map extends Component {
               <Text style={{ fontSize: 16 }}>05:00</Text>
             </View>
           </View>
-          <View style={{ flex: 1.5, flexDirection: "row" }}>
-            <View
-              style={{
-                flex: 0.5,
-                justifyContent: "center",
-                marginHorizontal: theme.SIZES.base *2,
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Ionicons name="ios-pricetag" size={theme.SIZES.icon} color={theme.COLORS.gray} />
+          <View style={styles.parkingInfoContainer}>
+            <View style={styles.parkingInfo}>
+              <View style={styles.parkingIcon}>
+                <Ionicons
+                  name="ios-pricetag"
+                  size={theme.SIZES.icon}
+                  color={theme.COLORS.gray}
+                />
                 <Text> ${item.price} </Text>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Ionicons name="ios-star" size={theme.SIZES.icon} color={theme.COLORS.gray} />
+              <View style={styles.parkingIcon}>
+                <Ionicons
+                  name="ios-star"
+                  size={theme.SIZES.icon}
+                  color={theme.COLORS.gray}
+                />
                 <Text> {item.rating} </Text>
               </View>
             </View>
             <TouchableOpacity style={styles.buy}>
-              <View style={{ flex: 1, justifyContent: "center" }}>
-                <Text style={{ fontSize: theme.SIZES.base *2, color: theme.COLORS.white }}>
-                  ${item.price * 2}
-                </Text>
+              <View style={styles.buyTotal}>
+                <Text style={styles.buyTotalPrice}>${item.price * 2}</Text>
                 <Text style={{ color: theme.COLORS.white }}>
                   {item.price}x{hours[item.id]} hrs
                 </Text>
               </View>
-              <View
-                style={{
-                  flex: 0.5,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ fontSize: theme.SIZES.base *2, color: theme.COLORS.white }}>&gt;</Text>
+              <View style={styles.buyBtn}>
+                <Text
+                  style={{
+                    fontSize: theme.SIZES.base * 2,
+                    color: theme.COLORS.white,
+                  }}
+                >
+                  &gt;
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -175,16 +162,13 @@ export default class Map extends Component {
   }
 
   render() {
+    const { currentPositionm, parkings } = this.props;
+
     return (
       <View style={styles.container}>
         {this.renderHeader()}
         <MapView
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0122,
-            longitudeDelta: 0.0121,
-          }}
+          initialRegion={}
           style={styles.map}
         >
           {parkings.map((parking) => (
@@ -199,10 +183,8 @@ export default class Map extends Component {
                     this.state.active === parking.id ? styles.active : null,
                   ]}
                 >
-                  <Text style={{ color: theme.COLORS.red, fontWeight: "bold" }}>
-                    ${parking.price}{" "}
-                  </Text>
-                  <Text style={{ color: theme.COLORS.gray }}>
+                  <Text style={styles.markerPrice}>${parking.price}</Text>
+                  <Text style={styles.markerStatus}>
                     ({parking.free}/{parking.spots})
                   </Text>
                 </View>
@@ -216,6 +198,8 @@ export default class Map extends Component {
     );
   }
 }
+
+export default Map;
 
 const styles = StyleSheet.create({
   container: {
@@ -253,6 +237,19 @@ const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.red,
     borderRadius: 6,
   },
+  buyTotal: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  buyTotalPrice: {
+    fontSize: theme.SIZES.base * 2,
+    color: theme.COLORS.white,
+  },
+  buyBtn: {
+    flex: 0.5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   marker: {
     flexDirection: "row",
     backgroundColor: theme.COLORS.white,
@@ -262,6 +259,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.COLORS.white,
   },
+  markerPrice: {
+    color: theme.COLORS.red,
+    fontWeight: "bold",
+  },
+  markerStatus: { 
+      color: theme.COLORS.gray 
+    },
   shadow: {
     shadowColor: theme.COLORS.black,
     shadowOffset: {
@@ -274,7 +278,27 @@ const styles = StyleSheet.create({
   },
   active: {
     borderColor: theme.COLORS.red,
-
   },
-
+  hours: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  hoursTitle: {
+    fontSize: theme.SIZES.font,
+  },
+  parkingInfoContainer: {
+    flex: 1.5,
+    flexDirection: "row",
+  },
+  parkingInfo: {
+    flex: 0.5,
+    justifyContent: "center",
+    marginHorizontal: theme.SIZES.base * 2,
+  },
+  parkingIcon: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });
