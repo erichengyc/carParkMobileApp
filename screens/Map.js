@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import MapView from "react-native-maps";
+import { Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as theme from "../theme";
 
@@ -57,6 +58,7 @@ class ParkingMap extends Component {
   state = {
     hours: {},
     active: null,
+    activeModal: null,
   };
 
   componentDidMount() {
@@ -130,7 +132,10 @@ class ParkingMap extends Component {
                 <Text> {item.rating} </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.buy}>
+            <TouchableOpacity
+              style={styles.buy}
+              onPress={() => this.setState({ activeModal: item })}
+            >
               <View style={styles.buyTotal}>
                 <Text style={styles.buyTotalPrice}>${item.price * 2}</Text>
                 <Text style={{ color: theme.COLORS.white }}>
@@ -172,6 +177,54 @@ class ParkingMap extends Component {
     );
   }
 
+  renderModal() {
+    const { activeModal, hours } = this.state;
+
+    if (!activeModal) return null;
+
+    return (
+      <Modal
+        isVisible
+        useNativeDriver
+        style={styles.modalContainer}
+        backdropColor={theme.COLORS.overlay}
+        onBackButtonPress={() => this.setState({ activeModal: null })}
+        onBackdropPress={() => this.setState({ activeModal: null })}
+        onSwipeComplete={() => this.setState({ activeModal: null })}
+      >
+        <View style={styles.modal}>
+          <View>
+            <Text>{activeModal.title}</Text>
+          </View>
+          <View>
+            <Text>{activeModal.description}</Text>
+          </View>
+          <View style={{ flexDirection: 'row'}}>
+            <Text>{activeModal.price}</Text>
+            <Text>{activeModal.rating}</Text>
+            <Text>{activeModal.distance}</Text>
+            <Text>{activeModal.free}/{activeModal.total}</Text>
+          </View>
+          <View>
+            <Text>Choose your Booking Period: </Text>
+          </View>
+          <View>
+          <TouchableOpacity style={styles.payBtn}>
+              <Text style={styles.payText}>
+                Proceed to pay ${activeModal.price * hours[activeModal.id]}
+              </Text>
+              {/* <FontAwesome
+                name="angle-right"
+                size={theme.SIZES.icon * 1.75}
+                color={theme.COLORS.white}
+              /> */}
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
   render() {
     const { currentPosition, parkings } = this.props;
 
@@ -202,6 +255,7 @@ class ParkingMap extends Component {
         </MapView>
 
         {this.renderParkings()}
+        {this.renderModal()}
       </View>
     );
   }
@@ -327,5 +381,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  modalContainer: {
+    margin: 0,
+    justifyContent: "flex-end",
+  },
+  modal: {
+    flexDirection: "column",
+    height: height * 0.75,
+    padding: theme.SIZES.base * 2,
+    backgroundColor: theme.COLORS.white,
+    borderTopLeftRadius: theme.SIZES.base,
+    borderTopRightRadius: theme.SIZES.base,
   },
 });
