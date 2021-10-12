@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
+import * as theme from "../theme";
 
 const { Marker } = MapView;
 const { height, width } = Dimensions.get("screen");
@@ -104,7 +105,7 @@ export default class Map extends Component {
               style={{
                 flex: 0.5,
                 justifyContent: "center",
-                marginHorizontal: 12,
+                marginHorizontal: theme.SIZES.base *2,
               }}
             >
               <View
@@ -115,7 +116,7 @@ export default class Map extends Component {
                   alignItems: "center",
                 }}
               >
-                <Ionicons name="ios-pricetag" size={16} color="#7D818A" />
+                <Ionicons name="ios-pricetag" size={theme.SIZES.icon} color={theme.COLORS.gray} />
                 <Text> ${item.price} </Text>
               </View>
               <View
@@ -126,16 +127,16 @@ export default class Map extends Component {
                   alignItems: "center",
                 }}
               >
-                <Ionicons name="ios-star" size={16} color="#7D818A" />
+                <Ionicons name="ios-star" size={theme.SIZES.icon} color={theme.COLORS.gray} />
                 <Text> {item.rating} </Text>
               </View>
             </View>
             <TouchableOpacity style={styles.buy}>
               <View style={{ flex: 1, justifyContent: "center" }}>
-                <Text style={{ fontSize: 25, color: "white" }}>
+                <Text style={{ fontSize: theme.SIZES.base *2, color: theme.COLORS.white }}>
                   ${item.price * 2}
                 </Text>
-                <Text style={{ color: "white" }}>
+                <Text style={{ color: theme.COLORS.white }}>
                   {item.price}x{hours[item.id]} hrs
                 </Text>
               </View>
@@ -146,7 +147,7 @@ export default class Map extends Component {
                   alignItems: "center",
                 }}
               >
-                <Text style={{ color: "white" }}>&gt;</Text>
+                <Text style={{ fontSize: theme.SIZES.base *2, color: theme.COLORS.white }}>&gt;</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -198,10 +199,10 @@ export default class Map extends Component {
                     this.state.active === parking.id ? styles.active : null,
                   ]}
                 >
-                  <Text style={{ color: "#840815", fontWeight: "bold" }}>
+                  <Text style={{ color: theme.COLORS.red, fontWeight: "bold" }}>
                     ${parking.price}{" "}
                   </Text>
-                  <Text style={{ color: "#7D818A" }}>
+                  <Text style={{ color: theme.COLORS.gray }}>
                     ({parking.free}/{parking.spots})
                   </Text>
                 </View>
@@ -219,13 +220,13 @@ export default class Map extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.COLORS.white,
   },
   header: {
     flex: 0.5,
     // alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: theme.SIZES.base * 2,
   },
   map: {
     flex: 3,
@@ -235,34 +236,34 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom: 0,
-    paddingBottom: 24,
+    paddingBottom: theme.SIZES.base * 2,
   },
   parking: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: theme.COLORS.white,
     borderRadius: 6,
     padding: 12,
-    marginHorizontal: 24,
+    marginHorizontal: theme.SIZES.base * 2,
     width: width - 24 * 2,
   },
   buy: {
     flex: 1,
     flexDirection: "row",
     padding: 12,
-    backgroundColor: "#D25260",
+    backgroundColor: theme.COLORS.red,
     borderRadius: 6,
   },
   marker: {
     flexDirection: "row",
-    backgroundColor: "white",
-    borderRadius: 24,
+    backgroundColor: theme.COLORS.white,
+    borderRadius: theme.SIZES.base * 2,
     paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: theme.SIZES.base * 2,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: theme.COLORS.white,
   },
   shadow: {
-    shadowColor: "#000",
+    shadowColor: theme.COLORS.black,
     shadowOffset: {
       width: 0,
       height: 6,
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
     elevation: 24,
   },
   active: {
-    borderColor: "#840815",
+    borderColor: theme.COLORS.red,
 
   },
 
