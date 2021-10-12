@@ -14,7 +14,7 @@ import * as theme from "../theme";
 
 const { Marker } = MapView;
 const { height, width } = Dimensions.get("screen");
-const parkings = [
+const parkingsSpots = [
   {
     id: 1,
     title: "Parking 1",
@@ -53,13 +53,14 @@ const parkings = [
   },
 ];
 
-class Map extends Component {
+class ParkingMap extends Component {
   state = {
     hours: {},
     active: null,
   };
 
   componentDidMount() {
+    const { parkings } = this.props;
     const hours = {};
 
     parkings.map((parking) => {
@@ -154,7 +155,7 @@ class Map extends Component {
         snapToAlignment="center"
         onScroll={(props) => console.log("onScroll", props)}
         style={styles.parkings}
-        data={parkings}
+        data={this.props.parkings}
         keyExtractor={(item, index) => "$(item.id)"}
         renderItem={({ item }) => this.renderParking(item)}
       />
@@ -162,13 +163,13 @@ class Map extends Component {
   }
 
   render() {
-    const { currentPositionm, parkings } = this.props;
+    const { currentPosition, parkings } = this.props;
 
     return (
       <View style={styles.container}>
         {this.renderHeader()}
         <MapView
-          initialRegion={}
+          initialRegion={currentPosition}
           style={styles.map}
         >
           {parkings.map((parking) => (
@@ -199,7 +200,17 @@ class Map extends Component {
   }
 }
 
-export default Map;
+ParkingMap.defaultProps = {
+    currentPosition: {
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta: 0.0122,
+      longitudeDelta: 0.0121
+    },
+    parkings: parkingsSpots
+  };
+
+export default ParkingMap;
 
 const styles = StyleSheet.create({
   container: {
