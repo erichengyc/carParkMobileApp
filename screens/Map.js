@@ -80,7 +80,6 @@ export default class Map extends Component {
 
     return (
       <TouchableWithoutFeedback
-        key={"parking-${item.id}"}
         onPress={() => this.setState({ active: item.id })}
       >
         <View style={[styles.parking, styles.shadow]}>
@@ -88,25 +87,6 @@ export default class Map extends Component {
             <Text style={{ fontSize: 16 }}>
               x {item.spots} {item.title}
             </Text>
-            {/* <Picker
-            selectedValue={this.state.hours[item.id || 1 ]}
-            style={{ height: 50, width: 100 }}
-            itemStyle={{ color: 'red'}}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({
-                horus: { ...this.state.hours, [item.id]: itemValue },
-              })
-            }
-          >
-            <Picker.Item label="01:00" value={1} />
-            <Picker.Item label="02:00" value={2} />
-            <Picker.Item label="03:00" value={3} />
-            <Picker.Item label="04:00" value={4} />
-            <Picker.Item label="05:00" value={5} />
-            <Picker.Item label="06:00" value={6} />
-            <Picker.Item label="07:00" value={7} />
-          </Picker> */}
-
             <View
               style={{
                 width: 100,
@@ -208,22 +188,23 @@ export default class Map extends Component {
         >
           {parkings.map((parking) => (
             <Marker key={"marker-${parking.id"} coordinate={parking.coordinate}>
-             <TouchableWithoutFeedback onPress={() => this.setState({ active: parking.id })}>
-
-              <View
-                style={[
-                  styles.marker,
-                  styles.shadow,
-                  this.state.active === parking.id ? styles.active : null,
-                ]}
+              <TouchableWithoutFeedback
+                onPress={() => this.setState({ active: parking.id })}
               >
-                <Text style={{ color: "#840815", fontWeight: "bold" }}>
-                  ${parking.price}{" "}
-                </Text>
-                <Text style={{ color: "#7D818A" }}>
-                  ({parking.free}/{parking.spots})
-                </Text>
-              </View>
+                <View
+                  style={[
+                    styles.marker,
+                    styles.shadow,
+                    this.state.active === parking.id ? styles.active : null,
+                  ]}
+                >
+                  <Text style={{ color: "#840815", fontWeight: "bold" }}>
+                    ${parking.price}{" "}
+                  </Text>
+                  <Text style={{ color: "#7D818A" }}>
+                    ({parking.free}/{parking.spots})
+                  </Text>
+                </View>
               </TouchableWithoutFeedback>
             </Marker>
           ))}
@@ -278,7 +259,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: "white",
   },
   shadow: {
     shadowColor: "#000",
@@ -291,6 +272,8 @@ const styles = StyleSheet.create({
     elevation: 24,
   },
   active: {
-      borderColor: '#840815',
-  }
+    borderColor: "#840815",
+
+  },
+
 });
