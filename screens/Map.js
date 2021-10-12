@@ -72,7 +72,17 @@ class ParkingMap extends Component {
   renderHeader() {
     return (
       <View style={styles.header}>
-        <Text>Header</Text>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={styles.headerTitle}>Detected location</Text>
+          <Text style={styles.headerLocation}>San Francisco, US</Text>
+        </View>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }}
+        >
+          <TouchableWithoutFeedback>
+            <Ionicons name="ios-menu" size={theme.SIZES.icon * 1.5} />
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     );
   }
@@ -168,10 +178,7 @@ class ParkingMap extends Component {
     return (
       <View style={styles.container}>
         {this.renderHeader()}
-        <MapView
-          initialRegion={currentPosition}
-          style={styles.map}
-        >
+        <MapView initialRegion={currentPosition} style={styles.map}>
           {parkings.map((parking) => (
             <Marker key={"marker-${parking.id"} coordinate={parking.coordinate}>
               <TouchableWithoutFeedback
@@ -201,14 +208,14 @@ class ParkingMap extends Component {
 }
 
 ParkingMap.defaultProps = {
-    currentPosition: {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.0122,
-      longitudeDelta: 0.0121
-    },
-    parkings: parkingsSpots
-  };
+  currentPosition: {
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0122,
+    longitudeDelta: 0.0121,
+  },
+  parkings: parkingsSpots,
+};
 
 export default ParkingMap;
 
@@ -218,10 +225,19 @@ const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.white,
   },
   header: {
-    flex: 0.5,
-    // alignItems: "center",
+    flexDirection: "row",
     justifyContent: "center",
     paddingHorizontal: theme.SIZES.base * 2,
+    paddingTop: theme.SIZES.base * 2.5,
+    paddingBottom: theme.SIZES.base * 1.5,
+  },
+  headerTitle: {
+    color: theme.COLORS.gray,
+  },
+  headerLocation: {
+    fontSize: theme.SIZES.font,
+    fontWeight: "500",
+    paddingVertical: theme.SIZES.base / 3,
   },
   map: {
     flex: 3,
@@ -274,9 +290,9 @@ const styles = StyleSheet.create({
     color: theme.COLORS.red,
     fontWeight: "bold",
   },
-  markerStatus: { 
-      color: theme.COLORS.gray 
-    },
+  markerStatus: {
+    color: theme.COLORS.gray,
+  },
   shadow: {
     shadowColor: theme.COLORS.black,
     shadowOffset: {
