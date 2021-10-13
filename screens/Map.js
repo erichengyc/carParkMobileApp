@@ -107,7 +107,7 @@ class ParkingMap extends Component {
     );
   }
 
-  renderParking(item) {
+  renderParking = (item) => {
     const { hours } = this.state;
     const totalPrice = item.price * hours[item.id];
 
@@ -178,9 +178,9 @@ class ParkingMap extends Component {
         </View>
       </TouchableWithoutFeedback>
     );
-  }
+  };
 
-  renderParkings() {
+  renderParkings = () => {
     return (
       <FlatList
         horizontal
@@ -189,14 +189,14 @@ class ParkingMap extends Component {
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
         snapToAlignment="center"
-        onScroll={(props) => console.log("onScroll", props)}
         style={styles.parkings}
         data={this.props.parkings}
-        keyExtractor={(item, index) => "$(item.id)"}
+        extraData={this.state}
+        keyExtractor={(item, index) => '${item.id}'}
         renderItem={({ item }) => this.renderParking(item)}
       />
     );
-  }
+  };
 
   renderHours(id) {
     const { hours } = this.state;
@@ -333,7 +333,10 @@ class ParkingMap extends Component {
         {this.renderHeader()}
         <MapView initialRegion={currentPosition} style={styles.map}>
           {parkings.map((parking) => (
-            <Marker key={"marker-${parking.id"} coordinate={parking.coordinate}>
+            <Marker
+              key={`marker-${parking.id}`}
+              coordinate={parking.coordinate}
+            >
               <TouchableWithoutFeedback
                 onPress={() => this.setState({ active: parking.id })}
               >
@@ -353,7 +356,6 @@ class ParkingMap extends Component {
             </Marker>
           ))}
         </MapView>
-
         {this.renderParkings()}
         {this.renderModal()}
       </View>
