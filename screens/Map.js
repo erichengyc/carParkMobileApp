@@ -29,8 +29,8 @@ const parkingsSpots = [
       longitude: -122.4334,
     },
     description: `Description about this parking lot
-  Open year 2018
-  Secure with CTV`,
+Open year 2018
+Secure with CTV`,
   },
   {
     id: 2,
@@ -44,8 +44,8 @@ const parkingsSpots = [
       longitude: -122.4344,
     },
     description: `Description about this parking lot
-  Open year 2014
-  Secure with CTV`,
+Open year 2014
+Secure with CTV`,
   },
   {
     id: 3,
@@ -59,8 +59,8 @@ const parkingsSpots = [
       longitude: -122.4314,
     },
     description: `Description about this parking lot
-  Open year 2019
-  Secure with CTV`,
+Open year 2019
+Secure with CTV`,
   },
 ];
 
@@ -192,7 +192,7 @@ class ParkingMap extends Component {
         style={styles.parkings}
         data={this.props.parkings}
         extraData={this.state}
-        keyExtractor={(item, index) => '${item.id}'}
+        keyExtractor={(item, index) => `${item.id}`}
         renderItem={({ item }) => this.renderParking(item)}
       />
     );
