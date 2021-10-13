@@ -71,15 +71,23 @@ class ParkingMap extends Component {
     activeModal: null,
   };
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { parkings } = this.props;
     const hours = {};
 
     parkings.map((parking) => {
       hours[parking.id] = 1;
     });
+
     this.setState({ hours });
   }
+
+  handleHours = (id, value) => {
+    const { hours } = this.state;
+    hours[id] = value;
+
+    this.setState({ hours });
+  };
 
   renderHeader() {
     return (
@@ -190,6 +198,26 @@ class ParkingMap extends Component {
     );
   }
 
+  renderHours(id) {
+    const { hours } = this.state;
+    const availableHours = [1, 2, 3, 4, 5, 6];
+
+    return (
+      <Dropdown
+        defaultIndex={0}
+        options={availableHours}
+        style={styles.hoursDropdown}
+        defaultValue={"0${hours[id]}:00 " || "01:00"}
+        dropdownStyle={styles.hoursDropdownStyle}
+        onSelect={(index, value) => this.handleHours(id, value)}
+        renderRow={(option) => (
+          <Text style={styles.hoursDropdownOption}>{"0${option}:00"}</Text>
+        )}
+        renderButtonText={(option) => "0${option}:00"}
+      />
+    );
+  }
+
   renderModal() {
     const { activeModal, hours } = this.state;
 
@@ -276,7 +304,7 @@ class ParkingMap extends Component {
               Choose your Booking Period:
             </Text>
             <View style={styles.modalHoursDropdown}>
-              {/* {this.renderHours(activeModal.id)} */}
+              {this.renderHours(activeModal.id)}
               <Text style={{ color: theme.COLORS.gray }}>hrs</Text>
             </View>
           </View>
@@ -452,6 +480,15 @@ const styles = StyleSheet.create({
     padding: theme.SIZES.base,
     marginRight: theme.SIZES.base / 2,
   },
+  hoursDropdownOption: {
+    padding: 5,
+    fontSize: theme.SIZES.font * 0.8,
+  },
+  hoursDropdownStyle: {
+    marginLeft: -theme.SIZES.base,
+    paddingHorizontal: theme.SIZES.base / 2,
+    marginVertical: -(theme.SIZES.base + 1),
+  },
   parkingInfoContainer: {
     flex: 1.5,
     flexDirection: "row",
@@ -487,6 +524,12 @@ const styles = StyleSheet.create({
   },
   modalHours: {
     paddingVertical: height * 0.11,
+  },
+  modalHoursDropdown: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: theme.SIZES.base,
   },
   payBtn: {
     borderRadius: 6,
