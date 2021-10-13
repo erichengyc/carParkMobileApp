@@ -194,22 +194,81 @@ class ParkingMap extends Component {
       >
         <View style={styles.modal}>
           <View>
-            <Text>{activeModal.title}</Text>
+            <Text style={{ fontSize: theme.SIZES.font * 1.5 }}>
+              {activeModal.title}
+            </Text>
+          </View>
+          <View style={{ paddingVertical: theme.SIZES.base }}>
+            <Text
+              style={{
+                color: theme.COLORS.gray,
+                fontSize: theme.SIZES.font * 1.1,
+              }}
+            >
+              {activeModal.description}
+            </Text>
+          </View>
+          <View style={styles.modalInfo}>
+            <View
+              style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
+            >
+              <Ionicons
+                name="ios-pricetag"
+                size={theme.SIZES.icon * 1.1}
+                color={theme.COLORS.gray}
+              />
+              <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+                ${activeModal.price}
+              </Text>
+            </View>
+            <View
+              style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
+            >
+              <Ionicons
+                name="ios-star"
+                size={theme.SIZES.icon * 1.1}
+                color={theme.COLORS.gray}
+              />
+              <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+                {activeModal.rating}
+              </Text>
+            </View>
+            <View
+              style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
+            >
+              <Ionicons
+                name="ios-pin"
+                size={theme.SIZES.icon * 1.1}
+                color={theme.COLORS.gray}
+              />
+              <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+                {activeModal.price}km
+              </Text>
+            </View>
+            <View
+              style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
+            >
+              <Ionicons
+                name="ios-car"
+                size={theme.SIZES.icon * 1.3}
+                color={theme.COLORS.gray}
+              />
+              <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+                {activeModal.free}/{activeModal.spots}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.modalHours}>
+            <Text style={{ textAlign: "center", fontWeight: "500" }}>
+              Choose your Booking Period:
+            </Text>
+            <View style={styles.modalHoursDropdown}>
+              {/* {this.renderHours(activeModal.id)} */}
+              <Text style={{ color: theme.COLORS.gray }}>hrs</Text>
+            </View>
           </View>
           <View>
-            <Text>{activeModal.description}</Text>
-          </View>
-          <View style={{ flexDirection: 'row'}}>
-            <Text>{activeModal.price}</Text>
-            <Text>{activeModal.rating}</Text>
-            <Text>{activeModal.distance}</Text>
-            <Text>{activeModal.free}/{activeModal.total}</Text>
-          </View>
-          <View>
-            <Text>Choose your Booking Period: </Text>
-          </View>
-          <View>
-          <TouchableOpacity style={styles.payBtn}>
+            <TouchableOpacity style={styles.payBtn}>
               <Text style={styles.payText}>
                 Proceed to pay ${activeModal.price * hours[activeModal.id]}
               </Text>
@@ -393,5 +452,13 @@ const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.white,
     borderTopLeftRadius: theme.SIZES.base,
     borderTopRightRadius: theme.SIZES.base,
+  },
+  payBtn: {
+    borderRadius: 6,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: theme.SIZES.base * 1.5,
+    backgroundColor: theme.COLORS.red
   },
 });
