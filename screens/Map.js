@@ -461,4 +461,9 @@ const styles = StyleSheet.create({
     padding: theme.SIZES.base * 1.5,
     backgroundColor: theme.COLORS.red
   },
+  payText: {
+    fontWeight: "600",
+    fontSize: theme.SIZES.base * 1.5,
+    color: theme.COLORS.white
+  }
 });
