@@ -471,6 +471,9 @@ const styles = StyleSheet.create({
     borderTopColor: theme.COLORS.overlay,
     borderBottomColor: theme.COLORS.overlay
   },
+  modalHours: {
+    paddingVertical: height * 0.11
+  },
   payBtn: {
     borderRadius: 6,
     flexDirection: "row",
