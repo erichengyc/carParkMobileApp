@@ -25,8 +25,11 @@ const parkingsSpots = [
     free: 10,
     coordinate: {
       latitude: 37.78735,
-      longitude: -122.4344,
+      longitude: -122.4334,
     },
+    description: `Description about this parking lot
+  Open year 2018
+  Secure with CTV`,
   },
   {
     id: 2,
@@ -37,8 +40,11 @@ const parkingsSpots = [
     free: 20,
     coordinate: {
       latitude: 37.78845,
-      longitude: -122.4314,
+      longitude: -122.4344,
     },
+    description: `Description about this parking lot
+  Open year 2014
+  Secure with CTV`,
   },
   {
     id: 3,
@@ -49,8 +55,11 @@ const parkingsSpots = [
     free: 25,
     coordinate: {
       latitude: 37.78615,
-      longitude: -122.4334,
+      longitude: -122.4314,
     },
+    description: `Description about this parking lot
+  Open year 2019
+  Secure with CTV`,
   },
 ];
 
@@ -459,11 +468,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: theme.SIZES.base * 1.5,
-    backgroundColor: theme.COLORS.red
+    backgroundColor: theme.COLORS.red,
   },
   payText: {
     fontWeight: "600",
     fontSize: theme.SIZES.base * 1.5,
-    color: theme.COLORS.white
-  }
+    color: theme.COLORS.white,
+  },
 });
