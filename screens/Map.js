@@ -101,9 +101,11 @@ class ParkingMap extends Component {
 
   renderParking(item) {
     const { hours } = this.state;
+    const totalPrice = item.price * hours[item.id];
 
     return (
       <TouchableWithoutFeedback
+        key={`parking-${item.id}`}
         onPress={() => this.setState({ active: item.id })}
       >
         <View style={[styles.parking, styles.shadow]}>
@@ -124,7 +126,9 @@ class ParkingMap extends Component {
                   size={theme.SIZES.icon}
                   color={theme.COLORS.gray}
                 />
-                <Text> ${item.price} </Text>
+                <Text style={{ marginLeft: theme.SIZES.base }}>
+                  ${item.price}
+                </Text>
               </View>
               <View style={styles.parkingIcon}>
                 <Ionicons
@@ -132,7 +136,9 @@ class ParkingMap extends Component {
                   size={theme.SIZES.icon}
                   color={theme.COLORS.gray}
                 />
-                <Text> {item.rating} </Text>
+                <Text style={{ marginLeft: theme.SIZES.base }}>
+                  {item.rating}
+                </Text>
               </View>
             </View>
             <TouchableOpacity
@@ -373,7 +379,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: theme.COLORS.white,
     borderRadius: 6,
-    padding: 12,
+    padding: theme.SIZES.base,
     marginHorizontal: theme.SIZES.base * 2,
     width: width - 24 * 2,
   },
@@ -383,22 +389,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.SIZES.base * 1.5,
     paddingVertical: theme.SIZES.base,
     backgroundColor: theme.COLORS.red,
-    borderRadius: 6
+    borderRadius: 6,
   },
   buyTotal: {
     flex: 1,
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
   },
   buyTotalPrice: {
     color: theme.COLORS.white,
     fontSize: theme.SIZES.base * 2,
     fontWeight: "600",
-    paddingLeft: theme.SIZES.base / 4
+    paddingLeft: theme.SIZES.base / 4,
   },
   buyBtn: {
     flex: 0.5,
     justifyContent: "center",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   marker: {
     flexDirection: "row",
@@ -433,18 +439,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     marginLeft: theme.SIZES.base / 2,
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
   },
   hoursTitle: {
     fontSize: theme.SIZES.text,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   hoursDropdown: {
     borderRadius: theme.SIZES.base / 2,
     borderColor: theme.COLORS.overlay,
     borderWidth: 1,
     padding: theme.SIZES.base,
-    marginRight: theme.SIZES.base / 2
+    marginRight: theme.SIZES.base / 2,
   },
   parkingInfoContainer: {
     flex: 1.5,
@@ -452,11 +458,11 @@ const styles = StyleSheet.create({
   },
   parkingInfo: {
     justifyContent: "space-evenly",
-    marginHorizontal: theme.SIZES.base * 1.5
+    marginHorizontal: theme.SIZES.base * 1.5,
   },
   parkingIcon: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   modalContainer: {
     margin: 0,
