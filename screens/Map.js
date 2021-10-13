@@ -462,6 +462,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: theme.SIZES.base,
     borderTopRightRadius: theme.SIZES.base,
   },
+  modalInfo: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingVertical: theme.SIZES.base,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderTopColor: theme.COLORS.overlay,
+    borderBottomColor: theme.COLORS.overlay
+  },
   payBtn: {
     borderRadius: 6,
     flexDirection: "row",
