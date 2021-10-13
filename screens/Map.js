@@ -10,7 +10,8 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import { Modal } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import Dropdown from "react-native-modal-dropdown";
 import * as theme from "../theme";
 
 const { Marker } = MapView;
@@ -110,16 +111,9 @@ class ParkingMap extends Component {
             <Text style={styles.hoursTitle}>
               x {item.spots} {item.title}
             </Text>
-            <View
-              style={{
-                width: 100,
-                borderRadius: 6,
-                borderColor: theme.COLORS.gray,
-                borderWidth: 0.5,
-                padding: 4,
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>05:00</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              {this.renderHours(item.id)}
+              <Text style={{ color: theme.COLORS.gray }}>hrs</Text>
             </View>
           </View>
           <View style={styles.parkingInfoContainer}>
@@ -146,20 +140,24 @@ class ParkingMap extends Component {
               onPress={() => this.setState({ activeModal: item })}
             >
               <View style={styles.buyTotal}>
-                <Text style={styles.buyTotalPrice}>${item.price * 2}</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <FontAwesome
+                    name="dollar"
+                    size={theme.SIZES.icon * 1.25}
+                    color={theme.COLORS.white}
+                  />
+                  <Text style={styles.buyTotalPrice}>{totalPrice}</Text>
+                </View>
                 <Text style={{ color: theme.COLORS.white }}>
                   {item.price}x{hours[item.id]} hrs
                 </Text>
               </View>
               <View style={styles.buyBtn}>
-                <Text
-                  style={{
-                    fontSize: theme.SIZES.base * 2,
-                    color: theme.COLORS.white,
-                  }}
-                >
-                  &gt;
-                </Text>
+                <FontAwesome
+                  name="angle-right"
+                  size={theme.SIZES.icon * 1.75}
+                  color={theme.COLORS.white}
+                />
               </View>
             </TouchableOpacity>
           </View>
@@ -281,11 +279,11 @@ class ParkingMap extends Component {
               <Text style={styles.payText}>
                 Proceed to pay ${activeModal.price * hours[activeModal.id]}
               </Text>
-              {/* <FontAwesome
+              <FontAwesome
                 name="angle-right"
                 size={theme.SIZES.icon * 1.75}
                 color={theme.COLORS.white}
-              /> */}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -382,22 +380,25 @@ const styles = StyleSheet.create({
   buy: {
     flex: 1,
     flexDirection: "row",
-    padding: 12,
+    paddingHorizontal: theme.SIZES.base * 1.5,
+    paddingVertical: theme.SIZES.base,
     backgroundColor: theme.COLORS.red,
-    borderRadius: 6,
+    borderRadius: 6
   },
   buyTotal: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly"
   },
   buyTotalPrice: {
-    fontSize: theme.SIZES.base * 2,
     color: theme.COLORS.white,
+    fontSize: theme.SIZES.base * 2,
+    fontWeight: "600",
+    paddingLeft: theme.SIZES.base / 4
   },
   buyBtn: {
     flex: 0.5,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-end"
   },
   marker: {
     flexDirection: "row",
@@ -431,24 +432,31 @@ const styles = StyleSheet.create({
   hours: {
     flex: 1,
     flexDirection: "column",
+    marginLeft: theme.SIZES.base / 2,
+    justifyContent: "space-evenly"
   },
   hoursTitle: {
-    fontSize: theme.SIZES.font,
+    fontSize: theme.SIZES.text,
+    fontWeight: "500"
+  },
+  hoursDropdown: {
+    borderRadius: theme.SIZES.base / 2,
+    borderColor: theme.COLORS.overlay,
+    borderWidth: 1,
+    padding: theme.SIZES.base,
+    marginRight: theme.SIZES.base / 2
   },
   parkingInfoContainer: {
     flex: 1.5,
     flexDirection: "row",
   },
   parkingInfo: {
-    flex: 0.5,
-    justifyContent: "center",
-    marginHorizontal: theme.SIZES.base * 2,
+    justifyContent: "space-evenly",
+    marginHorizontal: theme.SIZES.base * 1.5
   },
   parkingIcon: {
-    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "space-between"
   },
   modalContainer: {
     margin: 0,
@@ -469,10 +477,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderTopColor: theme.COLORS.overlay,
-    borderBottomColor: theme.COLORS.overlay
+    borderBottomColor: theme.COLORS.overlay,
   },
   modalHours: {
-    paddingVertical: height * 0.11
+    paddingVertical: height * 0.11,
   },
   payBtn: {
     borderRadius: 6,
